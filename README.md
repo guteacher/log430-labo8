@@ -94,7 +94,7 @@ Voici une résumé des Handlers de commandes et stocks utilisés pendant la Saga
 |              | OrderCancelled        | Oui             |
 |              | SagaCompleted         | Oui             |
 | Stocks       | StockIncreased        | **Non**         |
-|              | StockIncreaseFailed   | **Non**         |
+|              | StockDecreaseFailed   | **Non**         |
 |              | StockDecreased        | **Non**         |
 
 Maintenant, c'est à vous d'implémenter les Handlers qui ne sont pas encore implémentés. Utilisez **la même logique** et les mêmes méthodes que vous avez utilisées pendant le **labo 6**. Si jamais vous n'êtes pas certain d'où mettre le code ou à quel état faire la transition, consultez le diagramme de machine à états dans le document arc42. Les commentaires `TODO` sont également dans le code pour vous donner une idée d'où mettre le code.

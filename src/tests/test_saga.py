@@ -3,7 +3,7 @@ Tests for store manager, choreographed saga
 SPDX - License - Identifier: LGPL - 3.0 - or -later
 Auteurs : Gabriel C. Ullmann, Fabio Petrillo, 2025
 """
-
+import time
 import json
 from logger import Logger
 import pytest
@@ -37,6 +37,9 @@ def test_saga(client):
     order_id = response.get_json()['order_id']
     assert order_id > 0
     logger.debug(f"Created order with ID: {order_id}")
+
+    # Wait for 3s to give step 1 enough time to run
+    time.sleep(3)
     
     # 2. Check if order really exists and whether it has a payment link
     response = client.get(f'/orders/{order_id}')

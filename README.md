@@ -1,7 +1,7 @@
 # Labo 08 – Saga chorégraphiée, CQRS avec event broker, patron Outbox
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Ets_quebec_logo.png" width="250">    
-ÉTS - LOG430 - Architecture logicielle - Chargé de laboratoire : Gabriel C. Ullmann, Automne 2025.
+ÉTS - LOG430 - Architecture logicielle - Chargé de laboratoire : Gabriel C. Ullmann.
 
 ## 🎯 Objectifs d'apprentissage
 - Comprendre le fonctionnement d'une Saga chorégraphiée implémentée dans multiples microservices en utilisant Kafka en tant qu’event broker
@@ -28,9 +28,9 @@ Pour en savoir plus sur l'architecture et les décisions de conception, veuillez
 > 📝 **NOTE** : Dans une vraie application, nous pouvons utiliser un cluster de brokers Kafka distribués. Ça veut dire que même si un broker cesse de fonctionner, un autre broker sur un autre serveur peut continuer le travail avec les mêmes clients. Par simplicité, dans ce labo, on ne va utiliser qu'un seul broker (single-cluster).
 
 ### 1. Clonez les dépôts
-Vous allez travailler sur **deux dépôts** lors de ce labo : Store Manager (`log430-labo8`) et Payments API (`log430-a25-labo5-payment`). Créez vos propres dépôts à partir des dépôts gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous le souhaitez :
+Vous allez travailler sur **deux dépôts** lors de ce labo : Store Manager (`log430-labo8`) et Payments API (`log430-labo5-payment`). Créez vos propres dépôts à partir des dépôts gabarit (template). Vous pouvez modifier la visibilité pour le rendre privé si vous le souhaitez :
 ```bash
-git clone https://github.com/[votrenom]/log430-a25-labo5-payment
+git clone https://github.com/[votrenom]/log430-labo5-payment
 git clone https://github.com/[votrenom]/log430-labo8
 cd log430-labo8
 ```
@@ -55,7 +55,7 @@ docker compose up -d
 
 ## 🧪 Activités pratiques
 
-> ⚠️ **ATTENTION** : Dans ce laboratoire, nous allons analyser et modifier des fichiers dans les dépôts `log430-labo8` (`store_manager`) et `log430-a25-labo5-payment` (`payments_api`). Veuillez faire attention à l'énoncé de chaque activité afin de savoir quel dépôt utiliser.
+> ⚠️ **ATTENTION** : Dans ce laboratoire, nous allons analyser et modifier des fichiers dans les dépôts `log430-labo8` (`store_manager`) et `log430-labo5-payment` (`payments_api`). Veuillez faire attention à l'énoncé de chaque activité afin de savoir quel dépôt utiliser.
 
 ### 1. Analysez l'architecture actuelle
 
@@ -104,9 +104,9 @@ Pour exécuter votre implémentation, utilisez Postman pour appeler l'endpoint `
 Si jamais vous trouvez un problème, utilisez les mêmes astuces de débogage que nous avons discuté pendant les derniers labos.
 
 ### 4. Préparez le Payments API à recevoir des événements
-Avant d'implémenter les Handlers de paiement, vous aurez besoin de créer aussi un consommateur Kafka dans `log430-a25-labo5-payment` pour écouter l'événement `StockDecreased` et un producteur Kafka pour émettre les événements `PaymentCreated` ou `PaymentCreationFailed`, selon le besoin. Pour faire ça dans `log430-a25-labo5-payment`, vous devez:
+Avant d'implémenter les Handlers de paiement, vous aurez besoin de créer aussi un consommateur Kafka dans `log430-labo5-payment` pour écouter l'événement `StockDecreased` et un producteur Kafka pour émettre les événements `PaymentCreated` ou `PaymentCreationFailed`, selon le besoin. Pour faire ça dans `log430-labo5-payment`, vous devez:
 - Ajouter la dépendance `kafka-python` sur `requirements.txt`. **Reconstruisez vos conteneurs** pour installer les dépendances.
-- Créer la structure qui est nécessaire pour permettre au consommateur d'appeler des Handlers (ex. `HandlerRegistry`). Copiez les classes pertinents **qui existent déjà** dans `log430-labo8` à `log430-a25-labo5-payment`.
+- Créer la structure qui est nécessaire pour permettre au consommateur d'appeler des Handlers (ex. `HandlerRegistry`). Copiez les classes pertinents **qui existent déjà** dans `log430-labo8` à `log430-labo5-payment`.
 - Utiliser les consommateurs et producteurs, tels que nous avons vu pendant les labos 7 et 8 :
 ```python
 import config

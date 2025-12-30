@@ -46,6 +46,17 @@ Utilisez le même réseau dans le `docker-compose.yml` des deux dépôts. Si vou
 docker network create labo08-network
 ```
 
+### 3.1 Modifiez le nom du réeseau à `log430-labo5-payment`
+Pour utiliser `log430-labo5-payment` avec `log430-labo8`, changez le nom du réseau Docker à `labo08-network` dans le fichier `log430-labo5-payment/docker-compose.yml`. N'oubliez également de faire réference à ce nouveau réseau dans **chacun** des `services` dans `docker-compose.yml`.
+
+```yml
+networks:
+  labo08-network:
+    external: true 
+```
+
+Une fois cette modification effectuée, veuillez reconstruire vos conteneurs à `log430-labo5-payment`.
+
 ### 4. Préparez l'environnement de développement
 Démarrez les conteneurs de TOUS les services. Suivez les mêmes étapes que pour les derniers laboratoires.
 ```bash

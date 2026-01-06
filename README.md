@@ -201,6 +201,10 @@ python3 -m pytest
 
 Si tous les tests passent ✅, vos implémentations sont correctes.
 
+
+### 7. Éxécutez un test de charge
+Éxécutez un test de charge sur l'application Store Manager en utilisant Locust. Suivez les mêmes instructions que celles du laboratoire 4, activité 5. Testez la création d'une commande et notez vos observations sur les performances dans le rapport.
+
 ## 📦 Livrables
 
 - Un fichier `.zip` contenant l'intégralité du code source du projet Labo 08.

@@ -208,7 +208,4 @@ Si tous les tests passent ✅, vos implémentations sont correctes.
 ## 📦 Livrables
 
 - Un fichier `.zip` contenant l'intégralité du code source du projet Labo 08.
-- Une vidéo expliquant les principales observations, décisions et défis/difficultés/problèmes rencontrés durant l'étape 3 (labos 6-8).
-    - Exigences : Maximum 5 minutes, format .mp4 ou .webm.
-    - Veuillez utiliser un outil tel que Handbrake pour compresser la vidéo si elle dépasse 20 Mo.
 - Un rapport en `.pdf` répondant aux questions présentées dans ce document. Il est obligatoire d'illustrer vos réponses avec du code ou des captures d'écran/terminal

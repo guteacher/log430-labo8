@@ -1,10 +1,10 @@
 # Store Manager L08 - Documentation d'Architecture
-Ce document, basé sur le modèle arc42, décrit une API REST de gestion de magasin avec capacités GraphQL pour le Labo 08, LOG430.
+Ce document, basé sur le modèle arc42, décrit une API REST de gestion de magasin avec des fonctionnalités GraphQL pour le Labo 08, LOG430.
 
 ## 1. Introduction et Objectifs
 
 ### Panorama des exigences
-L'application « Store Manager » est un système avec architecture microservices pour la gestion des utilisateurs, articles, commandes et stock dans un petit magasin. Elle sert de projet éducatif pour démontrer :
+L'application « Store Manager » est un système à architecture microservices pour la gestion des utilisateurs, des articles, des commandes et du stock dans un petit magasin. Elle sert de projet éducatif pour démontrer :
 - L'implémentation d'une architecture API REST avec Flask
 - L'intégration GraphQL pour des requêtes de données flexibles
 - La fonctionnalité de gestion de stock avec cache Redis
@@ -24,9 +24,9 @@ Nous ferons évoluer ce projet tout au long du cours LOG430, en intégrant de no
 | Priorité | Objectif qualité | Scénario |
 |----------|------------------|----------|
 | 1 | **Extensibilité** | Ajout facile de nouveaux endpoints API et clients grâce aux principes REST |
-| 2 | **Flexibilité** | Support GraphQL permet aux clients de requêter exactement les données nécessaires |
+| 2 | **Flexibilité** | Le support GraphQL permet aux clients de requêter exactement les données nécessaires |
 | 3 | **Performance** | Cache Redis pour les données de stock et optimisation des jointures SQL |
-| 4 | **Maintenabilité** | Séparation claire des responsabilités via les patrons MVC+CQRS et architecture microservices |
+| 4 | **Maintenabilité** | Séparation claire des responsabilités via les patrons MVC+CQRS et l’architecture microservices |
 | 5 | **Fiabilité** | Rate limiting et timeout via KrakenD pour protéger les services backend ; Saga chorégraphiée avec Outbox Pattern pour garantir la cohérence des transactions distribuées |
 | 6 | **Scalabilité** | Architecture microservices permet la mise à l'échelle indépendante des services ; Kafka permet une communication asynchrone découplée |
 | 7 | **Tolérance aux pannes** | Patron Outbox et architecture event-driven permettent la récupération des opérations après redémarrage des services |
@@ -65,9 +65,9 @@ Le système permet aux employé·es du magasin de :
 ### Contexte technique
 - **Applications clientes** : Postman, applications fournisseurs, potentiels frontends web/mobiles
 - **Couche API** : API REST Flask avec endpoint GraphQL
-- **Couche base de données** : Backend MySQL avec cache Redis
+- **Couche base de données** : backend MySQL avec cache Redis
 - **API Gateway** : KrakenD pour le routage, rate limiting et timeout
-- **Communication** : Requêtes HTTP/HTTPS entre clients, gateway et microservices
+- **Communication**: Requêtes HTTP/HTTPS entre clients, gateway et microservices
 
 ## 4. Stratégie de solution
 
@@ -192,10 +192,10 @@ Voici un résumé des risques et des dettes techniques liés à l'application de
 | Risque | Impact | Mitigation |
 |--------|---------|------------|
 | **Cohérence du cache** | Les données de stock dans Redis peuvent devenir incohérentes avec la base de données | Implémenter des stratégies appropriées d'invalidation de cache |
-| **Securité des informations de stock** | Aucun de nos endpoints d'API n'est authentifié. Si cela peut ne pas poser de problème majeur si l'application est utilisée uniquement au sein du réseau d'un seul magasin, cela devient problématique dès que nous ouvrons certains endpoints, comme le point de terminaison GraphQL, à des utilisateurs externes. | Créez un système d'authentification pour le point de terminaison GraphQL, ou pour tous les endpoints pour plus de sécurité |
+| **Sécurité des informations de stock** | Aucun de nos endpoints d'API n'est authentifié. Si cela peut ne pas poser de problème majeur si l'application est utilisée uniquement au sein du réseau d'un seul magasin, cela devient problématique dès que nous ouvrons certains endpoints, comme le point de terminaison GraphQL, à des utilisateurs externes. | Créez un système d'authentification pour le point de terminaison GraphQL, ou pour tous les endpoints pour plus de sécurité |
 | **Cohérence des stocks par rapport à la réalité** | Dans l'implémentation actuelle, il n'existe aucun contrôle des stocks maximum/minimum. Les stocks peuvent être négatifs, par exemple. | Implémenter des vérifications de limites de stock |
-| **Défaillance du event broker** | Si l'event broker Kafka cesse de fonctionner, la communication entre les services et l'exécution des sagas sera immédiatement compromise. | Utiliser un cluster Kafka avec plusieurs instances du broker, surveiller les instances et leur fournir les ressources informatiques nécessaires pour qu'elles fonctionnent toujours avec des performances élevées. |
-| **Cohérence des commandes en cas d'échec à un point spécifique de la saga** | Si le Store Manager s'arrête avant la création de l'enregistrement dans la table Outbox, la commande restera dans la base de données sans un payment_id. À moins que nous supprimions ou modifiions manuellement la commande, elle ne sera pas mise à jour. | Inclure les informations de la commande dans la table Outbox immédiatement après la création de la commande. |
+| **Défaillance de l'event broker** | Si l'event broker Kafka cesse de fonctionner, la communication entre les services et l'exécution des sagas seront immédiatement compromises. | Utiliser un cluster Kafka avec plusieurs instances du broker, surveiller les instances et leur fournir les ressources informatiques nécessaires pour qu'elles fonctionnent toujours avec des performances élevées. |
+| **Cohérence des commandes en cas d'échec à un point spécifique de la saga** | Si le Store Manager s'arrête avant la création de l'enregistrement dans la table Outbox, la commande restera dans la base de données sans un `payment_id`. À moins que nous supprimions ou modifiions manuellement la commande, elle ne sera pas mise à jour. | Inclure les informations de la commande dans la table Outbox immédiatement après la création de la commande. |
 
 
 ## 12. Glossaire
@@ -205,5 +205,5 @@ Voici un résumé des risques et des dettes techniques liés à l'application de
 | **API** | Application Programming Interface : interface de programmation d'applications |
 | **CQRS** | Command Query Responsibility Segregation : patron séparant les opérations d'écriture (Commands) des opérations de lecture (Queries) |
 | **GraphQL** | Langage de requête pour API permettant aux clients de demander des données spécifiques |
-| **REST** | Representational State Transfer : style architectural pour les services web |
+| **REST** | Representational State Transfer: style architectural pour les services web |
 | **RESTful** | APIs qui adhèrent aux principes REST |

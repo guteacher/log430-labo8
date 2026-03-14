@@ -146,7 +146,7 @@ Implémentez les Handlers restants.
 ### 6. Implémentez le patron Outbox
 La saga chorégraphiée a comme avantage le fait que le déclenchement des événements est distribué. Ça veut dire qu'un service n'a pas besoin de savoir quelle est l'adresse des autres services, il faut simplement connaître Kafka. De plus, même si un des services est hors ligne, ça n'arrête pas le flux des événements de la saga complètement, comme c'était le cas avec l'orchestrateur. Cependant, nous restons avec un problème : par exemple, si avant de créer le paiement, notre serveur est éteint ou l'application est arrêtée de manière forcée, une ou plusieurs commandes vont rester dans la base de données sans `payment_link`. Comme dans ce cas l'application est arrêtée soudainement, il n'y a pas assez de temps pour faire la compensation, et ainsi la commande devient incohérente.
 
-Le patron [Outbox](https://wipiec.digitalheritage.me/index.php/wipiecjournal/article/view/101) a été créé pour résoudre ce type de problème. Dans `log430-labo8`, dans le Handler `StockDecreased`, au lieu de demander le paiement tout de suite, nous allons enregistrer cette demande dans la table `Outbox` et ensuite appeler la classe `OutboxProcessor`. La persistance des événements et l'utilisation du `OutboxProcessor` aux bons moments nous permettra d'y accéder une fois que l'application a redémarré et d'allez jusqu'au bout dans la saga.
+Le patron [Outbox](https://wipiec.digitalheritage.me/index.php/wipiecjournal/article/view/101) a été créé pour résoudre ce type de problème. Dans `log430-labo8`, dans le Handler `StockDecreased`, au lieu de demander le paiement tout de suite, nous allons enregistrer cette demande dans la table `Outbox` et ensuite appeler la classe `OutboxProcessor`. La persistance des événements et l'utilisation du `OutboxProcessor` aux bons moments nous permettra d'y accéder une fois que l'application a redémarré et d'aller jusqu'au bout dans la saga.
 
 ![Outbox Pattern](docs/arc42/outbox.png)
 Figure 1 - Diagramme de séquence d'une application q'utilise le patron Outbox.
@@ -204,6 +204,17 @@ Si tous les tests passent ✅, vos implémentations sont correctes.
 
 ### 7. Éxécutez un test de charge
 Éxécutez un test de charge sur l'application Store Manager en utilisant Locust. Suivez les mêmes instructions que celles du laboratoire 4, activité 5. Testez la création d'une commande et notez vos observations sur les performances dans le rapport.
+
+### 📝 Note : le patron circuit breaker
+De la même façon que le patron Outbox assure la durabilité des événements, le patron circuit breaker protège contre les défaillances en cascade lors de l'appel à des services externes synchrones. Par exemple, imaginez la situation suivante :
+
+- Dans le Labo 08, le `OutboxProcessor` effectue un appel HTTP bloquant à l'API Payments
+- Si l'API Payments devient indisponible, le processeur pourrait réessayer, car les données de la commande sont enregistrées dans la table `Outbox`. 
+- Actuellement, le  `OutboxProcessor` réessayera seulement quand l'application Store Manager est redémarrée, mais nous pourrions implémenter une logique plus complexe de retry (par exemple, chaque fois q'un appel à l'API Payments échoue)
+- Cependant, dans ce cas-là, le `OutboxProcessor` réessayerait indéfiniment si l'API Payments restait hors ligne, gaspillant les ressources et bloquant la progression des autres commandes
+- Solution : un circuit breaker pourrait surveiller ces appels et, après avoir détecté une certaine quantité de défaillances en répétition, il rejetterait immédiatement les requêtes, permettant à la saga d'émettre des événements `PaymentCreationFailed` pour une compensation appropriée au lieu de rester bloquée
+
+Bien que non requis pour ce labo, comprendre le circuit breaker en tant que patron de résilience complémentaire à Outbox fournit une perspective plus detailée sur la conception de systèmes distribués.
 
 ## 📦 Livrables
 

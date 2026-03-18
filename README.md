@@ -187,6 +187,8 @@ if not is_outbox_processor_running:
    is_outbox_processor_running = True
 ```
 
+Finalement, n'oubliez pas de compléter la classe `OutboxProcessor` en implémentant la mise à jour du statut de la commande suite au paiement. Pour plus de détails, consultez l'annotation TODO dans `src/payments/outbox_processor.py`.
+
 > 💡 **Question 3** : Est-ce qu'une architecture Saga orchestrée pourrait aussi bénéficier de l'utilisation du patron Outbox, ou c'est un bénéfice exclusif de la saga chorégraphiée? Justifiez votre réponse avec un diagramme ou en faisant des références aux classes, modules et méthodes dans le code.
 
 > 💡 **Question 4** : Qu'est-ce qui arriverait si notre application s'arrête avant la création de l'enregistrement dans la table `Outbox`? Comment on pourrait améliorer notre implémentation pour résoudre ce problème? Justifiez votre réponse avec un diagramme ou en faisant des références aux classes, modules et méthodes dans le code.

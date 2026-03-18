@@ -54,6 +54,8 @@ class OutboxProcessor():
                 order = session.query(Outbox).filter(Outbox.order_id == outbox_item.order_id).first()
                 order.payment_id = data['payment_id']
                 session.commit()
+                # TODO: après la mise à jour à MySQL, il faut également mettre la commande à jour dans Redis
+                # Vous pouvez réutiliser le code présent dans OrderController, lignes 40-43
                 update_succeeded = modify_order(event_data["order_id"], True, order.payment_id)
                 event_data["payment_link"] = f"http://api-gateway:8080/payments-api/payments/process/{order.payment_id}"
                 if not update_succeeded:

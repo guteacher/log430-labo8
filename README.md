@@ -207,8 +207,8 @@ Si tous les tests passent ✅, vos implémentations sont correctes.
 ### 7. Éxécutez un test de charge
 Éxécutez un test de charge sur l'application Store Manager en utilisant Locust. Suivez les mêmes instructions que celles du laboratoire 4, activité 5. Testez la création d'une commande et notez vos observations sur les performances dans le rapport.
 
-### 📝 Note : le patron circuit breaker
-De la même façon que le patron Outbox assure la durabilité des événements, le patron circuit breaker protège contre les défaillances en cascade lors de l'appel à des services externes synchrones. Par exemple, imaginez la situation suivante :
+### 📝 Note : le patron Circuit Breaker
+De la même façon que le patron Outbox assure la durabilité des événements, le patron [Circuit Breaker](https://iopscience.iop.org/article/10.1088/1757-899X/1077/1/012065/meta) protège contre les défaillances en cascade lors de l'appel à des services externes synchrones. Par exemple, imaginez la situation suivante :
 
 - Dans le Labo 08, le `OutboxProcessor` effectue un appel HTTP bloquant à l'API Payments
 - Si l'API Payments devient indisponible, le processeur pourrait réessayer, car les données de la commande sont enregistrées dans la table `Outbox`. 
@@ -216,7 +216,7 @@ De la même façon que le patron Outbox assure la durabilité des événements, 
 - Cependant, dans ce cas-là, le `OutboxProcessor` réessayerait indéfiniment si l'API Payments restait hors ligne, gaspillant les ressources et bloquant la progression des autres commandes
 - Solution : un circuit breaker pourrait surveiller ces appels et, après avoir détecté une certaine quantité de défaillances en répétition, il rejetterait immédiatement les requêtes, permettant à la saga d'émettre des événements `PaymentCreationFailed` pour une compensation appropriée au lieu de rester bloquée
 
-Bien que non requis pour ce labo, comprendre le circuit breaker en tant que patron de résilience complémentaire à Outbox fournit une perspective plus detailée sur la conception de systèmes distribués.
+Bien que non requis pour ce labo, comprendre le patron Circuit Breaker en tant que patron de résilience complémentaire au patron Outbox fournit une perspective plus detailée sur la conception de systèmes distribués.
 
 ## 📦 Livrables
 

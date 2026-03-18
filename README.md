@@ -199,10 +199,9 @@ Le fichier `src/tests/test_saga.py` contient des tests unitaires pour vérifier 
 python3 -m pytest
 ```
 
-> 📝 **NOTE** : Vous pouvez également exécuter les tests localement, mais cela est un peu plus compliqué car vous devrez vous assurer que les hostnames de votre fichier .env font référence à `localhost`, et que tous les ports nécessaires sont ouverts. Je vous recommande donc vivement de l'exécuter dans Docker.
+> 📝 **NOTE** : Vous pouvez également exécuter les tests dans votre machine hôte, mais vous devrez vous assurer que les hostnames de votre fichier `.env` font référence à `localhost`, et que tous les ports nécessaires sont ouverts. Je vous recommande donc vivement de l'exécuter dans Docker.
 
 Si tous les tests passent ✅, vos implémentations sont correctes.
-
 
 ### 7. Éxécutez un test de charge
 Éxécutez un test de charge sur l'application Store Manager en utilisant Locust. Suivez les mêmes instructions que celles du laboratoire 4, activité 5. Testez la création d'une commande et notez vos observations sur les performances dans le rapport.
